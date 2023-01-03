@@ -9,7 +9,6 @@ if (!sasToken) throw Error("Azure Storage accountKey not found");
 
 const blobServiceUri = `https://${accountName}.blob.core.windows.net`;
 
-// https://YOUR-RESOURCE-NAME.blob.core.windows.net?YOUR-SAS-TOKEN
 const blobServiceClient = new BlobServiceClient(
   `${blobServiceUri}?${sasToken}`,
   null
@@ -17,7 +16,6 @@ const blobServiceClient = new BlobServiceClient(
 
 const containerName = "arbitowopi";
 async function getList() {
-  // create container client
   const containerClient = await blobServiceClient.getContainerClient(
     containerName
   );
@@ -36,14 +34,11 @@ async function getFile(blobName) {
   );
   const blobClient = await containerClient.getBlobClient(blobName);
 
-  // Get blob content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   const downloadBlockBlobResponse = await blobClient.download();
   const downloaded = await streamToBuffer(
     downloadBlockBlobResponse.readableStreamBody
   );
 
-  // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
   async function streamToBuffer(readableStream) {
     return new Promise((resolve, reject) => {
       const chunks = [];

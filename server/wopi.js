@@ -5,22 +5,24 @@ const { getList, getFile, putFile } = require("./azure");
 
 router.post("/files/:fileId", async function (req, res) {
   console.log("POST");
-  let list = await getList();
-  let file = list.find((l) => l.name === req.params.fileId);
+  let fileName = req.params.fileId;
+  let bin = await getFile(fileName);
+  let arr = req.query.access_token.split("_");
+  let userId = arr[1];
 
-  if (req.query.access_token !== "123")
+  if (arr[0] !== "123")
     return res.status(401).json({ error: "Invalid access token" });
   res.json({
-    BaseFileName: file.name,
-    Size: file.properties.contentLength,
-    UserId: "operations@arbito.in",
+    BaseFileName: fileName,
+    Size: bin.length,
+    UserId: userId,
     OwnerId: "operations@arbito.in",
     Version: "1",
-    UserFriendlyName: "test",
+    UserFriendlyName: userId,
     PostMessageOrigin: "https://testdomain2.arbito.in",
     PostMessageOriginAllowed: true,
-    FileName: file.name,
-    Name: file.name,
+    FileName: fileName,
+    Name: fileName,
     UserCanWrite: true,
     ReadOnly: false,
     SupportsLocks: true,
@@ -32,24 +34,23 @@ router.post("/files/:fileId", async function (req, res) {
 });
 
 router.get("/files/:fileId", async function (req, res) {
-  console.log("GET");
-  let list = await getList();
-  let file = list.find((l) => l.name === req.params.fileId);
-  console.log(list);
-
-  if (req.query.access_token !== "123")
+  let fileName = req.params.fileId;
+  let bin = await getFile(fileName);
+  let arr = req.query.access_token.split("_");
+  let userId = arr[1];
+  if (arr[0] !== "123")
     return res.status(401).json({ error: "Invalid access token" });
   res.json({
-    BaseFileName: file.name,
-    Size: file.properties.contentLength,
-    UserId: "operations@arbito.in",
+    BaseFileName: fileName,
+    Size: bin.length,
+    UserId: userId,
     OwnerId: "operations@arbito.in",
     Version: "1",
-    UserFriendlyName: "test",
+    UserFriendlyName: userId,
     PostMessageOrigin: "https://testdomain2.arbito.in",
     PostMessageOriginAllowed: true,
-    FileName: file.name,
-    Name: file.name,
+    FileName: fileName,
+    Name: fileName,
     UserCanWrite: true,
     ReadOnly: false,
     SupportsLocks: true,
@@ -61,20 +62,18 @@ router.get("/files/:fileId", async function (req, res) {
 });
 
 router.get("/files/:fileId/contents", async function (req, res) {
-  console.log("GET CONTENT");
-  if (req.query.access_token !== "123")
+  let arr = req.query.access_token.split("_");
+  if (arr[0] !== "123")
     return res.status(401).json({ error: "Invalid access token" });
-  let list = await getList();
-  let file = list.find((l) => l.name === req.params.fileId);
-  let bin = await getFile(file.name);
+  let bin = await getFile(req.params.fileId);
   res.send(bin);
 });
 
 router.post("/files/:fileId/contents", async function (req, res) {
-  console.log("POST CONTENT");
-  let list = await getList();
-  let file = list.find((l) => l.name === req.params.fileId);
-  await putFile(file.name, req.body);
+  let arr = req.query.access_token.split("_");
+  if (arr[0] !== "123")
+    return res.status(401).json({ error: "Invalid access token" });
+  await putFile(req.params.fileId, req.body);
   res.status(200).end();
 });
 
