@@ -19,6 +19,7 @@
           <input id="access_token_ttl" name="access_token_ttl" value="" type="hidden" />
           <label  for="user_id">User Name</label>
           <input name="user_id" id="user_id" value="test@arbito.com"    />
+          <input name="file_id" id="file_id" value=""  type="hidden"  />
           <input name="owner_id" id="owner_id" value="operations@arbito.in" type="hidden"  />
           <input type="submit" id="submit" value="Submit"  />
         </form>
@@ -35,19 +36,36 @@
       var scheme = locationOrigin.startsWith('https') ? 'https' : 'http';
       
       $(".load").on("click", function(event) {
-        $('#form').attr('style', "");
-        var id = event.target.dataset.id
+        $('#form').show();
+        let id = event.target.dataset.id
         $(".load").attr('style', "")
-        $("[data-id='" + id + "']").attr('style', "background-color: #00FF00;")
-        $("#submit").on("click", function(e) {
-          var wopiUrl = `https://FFC-word-edit.officeapps.live.com/we/wordeditorframe.aspx?ui=1033&rs=1033&dchat=1&hid=100&sc=100&wopisrc=https://testdomain2.arbito.in/wopi/files/${id}&IsLicensedUser=1&actnavid=100&showpagestats=1&showpagestats=0`
+        $(event.target).attr('style', "background-color: #00FF00;")
+        $('#file_id').attr("value", id )
+      });
+      $("#submit").on("click", function(e) {
+          let id = e.target.form["file_id"].value
+         
+          let query = {
+            ui: 1033,
+            rs: 1033,
+            dchat: 1,
+            hid: 100,
+            sc: 100,
+            wopisrc: `https://testdomain2.arbito.in/wopi/files/${id}`,
+            IsLicensedUser: 1,
+            actnavid: 100,
+            showpagestats: 1
+          }
+          
+          const search = new URLSearchParams(query).toString();
+
+          var wopiUrl = `https://FFC-word-edit.officeapps.live.com/we/wordeditorframe.aspx?${search}`
           $('#submit-form').attr('action', wopiUrl)
           $('#access_token').attr('value', `123_${e.target.form["user_id"].value}`);
           $('#access_token_ttl').attr('value', Date.now() + 100000000);
           $('#user_id').attr("value", e.target.form["user_id"].value )
           $('#submit-form').submit();
         });
-      });
       
       </script>    
   </body>
