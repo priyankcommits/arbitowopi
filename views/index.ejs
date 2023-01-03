@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wopi</title>
+  </head>
+  <body>
+    <div>List of Files</div>
+
+    <ol>
+      <% list.forEach(function (file) { %>
+        <li>
+          <button class="load" data-id="<%= file.name %>" ><%= file.name %></button>
+        </li>
+        <% }) %>
+      </ol>
+      <div style="display: none">
+        <form action="" enctype="multipart/form-data" method="post" target="collabora-online-viewer" id="collabora-submit-form">
+          <input id="access_token" name="access_token" value="123" type="hidden" />
+          <input id="access_token_ttl" name="access_token_ttl" value="1668399958776" type="hidden" />
+          <input name="user_id" value="operations@arbito.in" type="hidden" />
+          <input name="owner_id" value="operations@arbito.in" type="hidden" />
+          <input type="submit" value="" />
+        </form>
+      </div>
+
+
+    <iframe id="collabora-online-viewer" name="collabora-online-viewer" style="width:100%;height:90%;position:absolute;" title="Office Frame" allowfullscreen="true" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox">
+    </iframe>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="text/javascript">
+
+      var locationOrigin = window.location.origin;
+      var scheme = locationOrigin.startsWith('https') ? 'https' : 'http';
+      
+      $(".load").on("click", function(event) {
+        console.log("clicked load")
+        var id = event.target.dataset.id
+        var wopiUrl = `https://FFC-word-edit.officeapps.live.com/we/wordeditorframe.aspx?ui=1033&rs=1033&dchat=1&hid=100&sc=100&wopisrc=https://testdomain2.arbito.in/wopi/files/${id}&IsLicensedUser=1&actnavid=100&showpagestats=1&showpagestats=0`
+        $('#collabora-submit-form').attr('action', wopiUrl)
+            $('#access_token').attr('value', "123");
+            $('#access_token_ttl').attr('value', 1672753544192);
+            $('#collabora-submit-form').submit();
+      });
+      </script>
+
+
+    
+  
+    
+  </body>
+</html>
