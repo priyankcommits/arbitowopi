@@ -36,11 +36,6 @@ app.get("/", async function (req, res) {
   res.render("index", { list: list });
 });
 
-app.use((err, req, res) => {
-  console.log(err);
-  res.status(500).json({ msg: "Internal Server Error", error: err });
-});
-
 const port = 8080;
 app.listen(port, () => {
   console.log(`Listening at localhost:8080`);
