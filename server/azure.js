@@ -1,9 +1,9 @@
-// connect-with-sas-token.js
 const { BlobServiceClient } = require("@azure/storage-blob");
+const dotenv = require("dotenv");
+dotenv.config();
 
-const accountName = "ecourts";
-const sasToken =
-  "sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2025-01-02T19:55:08Z&st=2023-01-02T11:55:08Z&spr=https,http&sig=qNiR6eQxZZ0IFPXuNTLjU%2FO7ZC3brqK0bbDRlx5wxAk%3D";
+const accountName = process.env.ACCOUNT_NAME;
+const sasToken = process.env.SAS_TOKEN;
 if (!accountName) throw Error("Azure Storage accountName not found");
 if (!sasToken) throw Error("Azure Storage accountKey not found");
 

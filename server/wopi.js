@@ -4,7 +4,6 @@ var fs = require("fs");
 const { getList, getFile, putFile } = require("./azure");
 
 router.post("/files/:fileId", async function (req, res) {
-  console.log("POST");
   let fileName = req.params.fileId;
   let bin = await getFile(fileName);
   let arr = req.query.access_token.split("_");
