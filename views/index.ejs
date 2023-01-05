@@ -44,8 +44,26 @@
       });
       $("#submit").on("click", function(e) {
           let id = e.target.form["file_id"].value
-         
-          let query = {
+          let query = {}
+          let baseUrl = ""
+          if (id.includes("docx")) {
+            baseUrl = 'https://FFC-word-edit.officeapps.live.com/we/wordeditorframe.aspx'
+            query = {
+              ui: 1033,
+              rs: 1033,
+              dchat: 1,
+              hid: 100,
+              sc: 100,
+              wopisrc: `https://testdomain2.arbito.in/wopi/files/${id}`,
+              IsLicensedUser: 1,
+              actnavid: 100,
+              showpagestats: 1
+            }
+         } 
+         if (id.includes("xlsx")) {
+          baseUrl = 'https://FFC-excel.officeapps.live.com/x/_layouts/xlviewerinternal.aspx';
+          query = {
+            edit:1,
             ui: 1033,
             rs: 1033,
             dchat: 1,
@@ -53,13 +71,15 @@
             sc: 100,
             wopisrc: `https://testdomain2.arbito.in/wopi/files/${id}`,
             IsLicensedUser: 1,
-            actnavid: 100,
-            showpagestats: 1
+            actnavid: 100
           }
+         }
+
           
           const search = new URLSearchParams(query).toString();
 
-          var wopiUrl = `https://FFC-word-edit.officeapps.live.com/we/wordeditorframe.aspx?${search}`
+          var wopiUrl = `${baseUrl}?${search}`
+          
           $('#submit-form').attr('action', wopiUrl)
           $('#access_token').attr('value', `123_${e.target.form["user_id"].value}`);
           $('#access_token_ttl').attr('value', Date.now() + 100000000);
