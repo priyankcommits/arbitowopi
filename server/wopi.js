@@ -1,10 +1,11 @@
 var express = require("express");
 var router = express.Router();
 var fs = require("fs");
-const { getList, getFile, putFile } = require("./azure");
+const { getFile, putFile } = require("./azure");
 
 router.post("/files/:fileId", async function (req, res) {
   let fileName = req.params.fileId;
+  fileName = fileName.replace("+", " ");
   let bin = await getFile(fileName);
   let arr = req.query.access_token.split("_");
   let userId = arr[1];
@@ -34,6 +35,7 @@ router.post("/files/:fileId", async function (req, res) {
 
 router.get("/files/:fileId", async function (req, res) {
   let fileName = req.params.fileId;
+  fileName = fileName.replace("+", " ");
   let bin = await getFile(fileName);
   let arr = req.query.access_token.split("_");
   let userId = arr[1];
@@ -64,7 +66,9 @@ router.get("/files/:fileId/contents", async function (req, res) {
   let arr = req.query.access_token.split("_");
   if (arr[0] !== "123")
     return res.status(401).json({ error: "Invalid access token" });
-  let bin = await getFile(req.params.fileId);
+  fileName = req.params.fileId;
+  fileName = fileName.replace("+", " ");
+  let bin = await getFile(fileName);
   res.send(bin);
 });
 
@@ -72,7 +76,9 @@ router.post("/files/:fileId/contents", async function (req, res) {
   let arr = req.query.access_token.split("_");
   if (arr[0] !== "123")
     return res.status(401).json({ error: "Invalid access token" });
-  await putFile(req.params.fileId, req.body);
+  fileName = req.params.fileId;
+  fileName = fileName.replace("+", " ");
+  await putFile(fileName, req.body);
   res.status(200).end();
 });
 

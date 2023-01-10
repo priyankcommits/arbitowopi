@@ -44,6 +44,7 @@
       });
       $("#submit").on("click", function(e) {
           let id = e.target.form["file_id"].value
+          id = id.replace(" ", "+");
           let query = {}
           let baseUrl = ""
           if (id.includes("docx")) {

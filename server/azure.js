@@ -15,6 +15,8 @@ const blobServiceClient = new BlobServiceClient(
 );
 
 const containerName = "arbitowopi";
+
+// To get list of files from blob conatiner
 async function getList() {
   const containerClient = await blobServiceClient.getContainerClient(
     containerName
@@ -28,6 +30,7 @@ async function getList() {
   return list;
 }
 
+// To get file content of particular file
 async function getFile(blobName) {
   const containerClient = await blobServiceClient.getContainerClient(
     containerName
@@ -54,6 +57,7 @@ async function getFile(blobName) {
   return downloaded;
 }
 
+// To upload content of file to blob container
 async function putFile(blobName, data) {
   const containerClient = await blobServiceClient.getContainerClient(
     containerName
