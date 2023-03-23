@@ -49,23 +49,37 @@
           if (id.includes("docx")) {
             baseUrl = 'https://FFC-word-edit.officeapps.live.com/we/wordeditorframe.aspx'
             query = {
-              ui: 1033,
-              rs: 1033,
+              ui: "en-US",
+              rs: "en-US",
               dchat: 1,
               hid: 100,
               sc: 100,
               wopisrc: `https://testdomain2.arbito.in/wopi/files/${id}`,
               IsLicensedUser: 1,
               actnavid: 100,
-              showpagestats: 1
+              showpagestats: 0
             }
          } 
          if (id.includes("xlsx")) {
           baseUrl = 'https://FFC-excel.officeapps.live.com/x/_layouts/xlviewerinternal.aspx';
           query = {
             edit:1,
-            ui: 1033,
-            rs: 1033,
+            ui: "en-US",
+            rs: "en-US",
+            dchat: 1,
+            hid: 100,
+            sc: 100,
+            wopisrc: `https://testdomain2.arbito.in/wopi/files/${id}`,
+            IsLicensedUser: 1,
+            actnavid: 100
+          }
+         }
+         if (id.includes("wopitest")) {
+          baseUrl = 'https://FFC-onenote.officeapps.live.com/hosting/WopiTestFrame.aspx';
+          query = {
+            edit:1,
+            ui: "en-US",
+            rs: "en-US",
             dchat: 1,
             hid: 100,
             sc: 100,

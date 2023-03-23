@@ -10,7 +10,7 @@ router.post("/files/:fileId", async function (req, res) {
   let userId = arr[1];
 
   if (arr[0] !== "123")
-    return res.status(401).json({ error: "Invalid access token" });
+    return res.status(401).json({ error: "Invalid Access Token" });
   res.json({
     BaseFileName: fileName,
     Size: bin.length,
@@ -19,9 +19,9 @@ router.post("/files/:fileId", async function (req, res) {
     Version: "1",
     UserFriendlyName: userId,
     PostMessageOrigin: "https://testdomain2.arbito.in",
-    PostMessageOriginAllowed: true,
-    FileName: fileName,
-    Name: fileName,
+    // PostMessageOriginAllowed: true,
+    // FileName: fileName,
+    // Name: fileName,
     UserCanWrite: true,
     ReadOnly: false,
     SupportsLocks: true,
@@ -47,9 +47,9 @@ router.get("/files/:fileId", async function (req, res) {
     Version: "1",
     UserFriendlyName: userId,
     PostMessageOrigin: "https://testdomain2.arbito.in",
-    PostMessageOriginAllowed: true,
-    FileName: fileName,
-    Name: fileName,
+    // PostMessageOriginAllowed: true,
+    // FileName: fileName,
+    // Name: fileName,
     UserCanWrite: true,
     ReadOnly: false,
     SupportsLocks: true,
